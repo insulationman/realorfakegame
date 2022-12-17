@@ -2,7 +2,6 @@
   "name": "realorfakegame",
   "version": "1.0.0",
   "description": "Game (website) for the Real or Fake festival",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
