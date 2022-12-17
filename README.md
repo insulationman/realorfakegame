@@ -26,3 +26,7 @@ Lets not forget to donate some money to the map making software guy
 ## Game platform
 
 We are currently the phaser javascript platform to create the game.
+
+## Hosting
+
+The page is hosted using github pages
