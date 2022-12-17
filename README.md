@@ -21,6 +21,7 @@ The project should now run.
 The following technical choices were made.
 This guide is the basis for the game:
 https://gamedevacademy.org/html5-phaser-tutorial-top-down-games-with-tiled
+Lets not forget to donate some money to the map making software guy
 
 ## Game platform
 
