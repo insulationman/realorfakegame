@@ -3,6 +3,7 @@
 # The Real or Fake Game
 
 Greetings!
+The game is currently available on https://insulationman.github.io/realorfakegame/
 
 ## Get started
 
