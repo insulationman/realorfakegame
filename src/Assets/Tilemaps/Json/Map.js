@@ -9,14 +9,6 @@
   module.exports = data;
  }})("Map",
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"Map.tmj"
-        }
-    },
  "height":20,
  "infinite":false,
  "layers":[
@@ -91,7 +83,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/..\/..\/..\/..\/OneDrive - Cabanossy AB\/Desktop\/Tileset1.tsx"
+         "source":"..\/..\/..\/..\/..\/..\/..\/OneDrive - Cabanossy AB\/Desktop\/Tileset1.tsx"
         }],
  "tilewidth":16,
  "type":"map",

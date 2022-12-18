@@ -9,7 +9,7 @@ export default class StartScene extends Phaser.Scene {
     this.add.text(20, 20, "Loading..");
 
     setTimeout(() => {
-      this.scene.start("hello-world");
+      this.scene.start("game-scene");
     }, 2000);
   }
 }
