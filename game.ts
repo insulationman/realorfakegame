@@ -1,5 +1,5 @@
-import StartScene from "./Scenes/Start/StartScene";
-import HelloWorldScene from "./Scenes/HelloWorld/HelloWorldScene";
+import StartScene from "./src/Scenes/Start/StartScene";
+import HelloWorldScene from "./src/Scenes/HelloWorld/HelloWorldScene";
 import Phaser from "phaser";
 
 const config = {
