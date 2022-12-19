@@ -1,4 +1,5 @@
 import { Tilemaps } from "phaser";
+import VirtualJoyStick from "phaser3-rex-plugins/plugins/virtualjoystick";
 import VirtualJoyStickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin";
 
 export default class GameScene extends Phaser.Scene {
@@ -9,6 +10,7 @@ export default class GameScene extends Phaser.Scene {
   private layer!: Tilemaps.TilemapLayer;
   private player!: Phaser.Physics.Arcade.Sprite;
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+  private joystick!: VirtualJoyStick;
 
   preload() {
     //Load tilemap
@@ -34,7 +36,8 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    this.updatePlayer();
+    this.updatePlayerWithArrows();
+    this.updatePlayerWithJoystick();
   }
 
   private initMap(): void {
@@ -59,7 +62,7 @@ export default class GameScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
-  private updatePlayer(): void {
+  private updatePlayerWithArrows(): void {
     //move the player
     if (this.cursors.left.isDown) {
       this.player.setVelocityX(-160);
@@ -88,7 +91,7 @@ export default class GameScene extends Phaser.Scene {
     ) as VirtualJoyStickPlugin;
 
     //add the joystick
-    const joystick = joystickplugin.add(this, {
+    this.joystick = joystickplugin.add(this, {
       x: document.body.clientWidth - 100,
       y: document.body.clientHeight - 200,
       radius: 50,
@@ -98,6 +101,23 @@ export default class GameScene extends Phaser.Scene {
       forceMin: 16,
       enable: true,
     });
-    // joystick. .on("update", this.dumpJoyStickState, this);
+  }
+
+  //add the joystick events
+  private updatePlayerWithJoystick(): void {
+    const joyStick = this.joystick;
+    const player = this.player;
+
+    if (joyStick.left) {
+      player.setVelocityX(-160);
+    } else if (joyStick.right) {
+      player.setVelocityX(160);
+    }
+    if (joyStick.up) {
+      player.setVelocityY(-160);
+    }
+    if (joyStick.down) {
+      player.setVelocityY(160);
+    }
   }
 }
