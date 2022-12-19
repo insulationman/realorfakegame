@@ -1,4 +1,5 @@
 import { Tilemaps } from "phaser";
+import VirtualJoyStickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin";
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -29,6 +30,7 @@ export default class GameScene extends Phaser.Scene {
     this.initPlayer();
     this.initControls();
     this.initCameraFollow();
+    this.initJoystick();
   }
 
   update() {
@@ -78,5 +80,24 @@ export default class GameScene extends Phaser.Scene {
   private initCameraFollow(): void {
     //update the camera
     this.cameras.main.startFollow(this.player);
+  }
+
+  private initJoystick(): void {
+    const joystickplugin = this.plugins.get(
+      "rexVirtualJoystick"
+    ) as VirtualJoyStickPlugin;
+
+    //add the joystick
+    const joystick = joystickplugin.add(this, {
+      x: document.body.clientWidth - 100,
+      y: document.body.clientHeight - 100,
+      radius: 50,
+      base: this.add.circle(0, 0, 50, 0x888888),
+      thumb: this.add.circle(0, 0, 25, 0xcccccc),
+      dir: "8dir",
+      forceMin: 16,
+      enable: true,
+    });
+    // joystick. .on("update", this.dumpJoyStickState, this);
   }
 }
