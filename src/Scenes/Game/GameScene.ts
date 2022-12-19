@@ -48,6 +48,7 @@ export default class GameScene extends Phaser.Scene {
     this.map.addTilesetImage("villagetileset", "tiles");
     //create the layer
     this.layer = this.map.createLayer("Ground", "villagetileset", 0, 0);
+    this.layer = this.map.createLayer("Objects", "villagetileset", 0, 0);
   }
 
   private initPlayer(): void {
