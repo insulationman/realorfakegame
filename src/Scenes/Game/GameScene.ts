@@ -13,6 +13,7 @@ export default class GameScene extends Phaser.Scene {
   private joystick!: VirtualJoyStick;
 
   preload() {
+    this.cameras.main.setBackgroundColor("#FFFFFF");
     //Load tilemap
     this.load.tilemapTiledJSON(
       "Ground",
