@@ -90,7 +90,7 @@ export default class GameScene extends Phaser.Scene {
     //add the joystick
     const joystick = joystickplugin.add(this, {
       x: document.body.clientWidth - 100,
-      y: document.body.clientHeight - 100,
+      y: document.body.clientHeight - 200,
       radius: 50,
       base: this.add.circle(0, 0, 50, 0x888888),
       thumb: this.add.circle(0, 0, 25, 0xcccccc),
