@@ -46,7 +46,7 @@ export default class GameScene extends Phaser.Scene {
 
   private initPlayer(): void {
     //add the player
-    this.player = this.physics.add.sprite(50, 50, "player");
+    this.player = this.physics.add.sprite(1000, 1000, "player");
     //set the player to collide with the layer
     // this.layer.setCollisionByProperty({ collides: true });
     // this.physics.add.collider(this.player, this.layer);
