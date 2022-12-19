@@ -85,6 +85,7 @@ export default class GameScene extends Phaser.Scene {
   private initCameraFollow(): void {
     //update the camera
     this.cameras.main.startFollow(this.player);
+    this.cameras.main.roundPixels = true;
   }
 
   private initJoystick(): void {
