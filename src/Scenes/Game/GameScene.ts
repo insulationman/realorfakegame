@@ -13,13 +13,16 @@ export default class GameScene extends Phaser.Scene {
     // this.load.tilemapTiledJSON("map", "src/Assets/Tilemaps/Json/Map.json");
 
     this.load.tilemapTiledJSON(
-      "World1",
-      "src/Assets/Tilemaps/Json/untitled.json"
+      "Ground",
+      "src/Assets/Tilemaps/Json/hagudden-1.json"
     );
 
     //  Next we load the tileset. This is just an image, loaded in via the normal way we load images:
 
-    this.load.image("tiles", "src/Assets/Tilemaps/Tiles/free.png");
+    this.load.image(
+      "tiles",
+      "src/Assets/Tilemaps/Tiles/Serene_Village_32x32.png"
+    );
   }
 
   create() {
@@ -37,13 +40,13 @@ export default class GameScene extends Phaser.Scene {
     // this.scene..backgroundColor = '#787878';
 
     //  The 'mario' key here is the Loader key given in game.load.tilemap
-    this.map = this.add.tilemap("World1");
+    this.map = this.add.tilemap("Ground");
 
     //  The first parameter is the tileset name, as specified in the Tiled map editor (and in the tilemap json file)
     //  The second parameter maps this name to the Phaser.Cache key 'tiles'
-    this.map.addTilesetImage("untitled", "tiles");
+    this.map.addTilesetImage("villagetileset", "tiles");
 
-    this.layer = this.map.createLayer("World1", "untitled", 0, 0);
+    this.layer = this.map.createLayer("Ground", "villagetileset", 0, 0);
     // this.map = this.make.tilemap({
     //   key: "map",
     // });
