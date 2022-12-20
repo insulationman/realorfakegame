@@ -15,7 +15,7 @@ export default class StartScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#FFFFFF");
 
     this.label = this.add.text(100, 100, "", {
-      font: "70px Arial",
+      font: "24px Arial",
       color: "#000000",
       wordWrap: { width: document.body.clientWidth - 200 },
     });
