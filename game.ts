@@ -20,6 +20,7 @@ const config = {
       },
     ],
   },
+  resolution: window.devicePixelRatio,
   scene: [StartScene, GameScene],
 };
 
