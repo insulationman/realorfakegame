@@ -4,10 +4,11 @@ import Phaser from "phaser";
 import GameScene from "./src/Scenes/Game/GameScene";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
-const config = {
+const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: document.body.clientWidth,
-  height: document.body.clientHeight,
+  width: document.body.clientWidth * window.devicePixelRatio,
+  height: document.body.clientHeight * window.devicePixelRatio,
+
   physics: {
     default: "arcade",
   },
@@ -20,10 +21,8 @@ const config = {
       },
     ],
   },
-  resolution: window.devicePixelRatio,
   scene: [StartScene, GameScene],
 };
-
 const game = new Phaser.Game(config);
 
 const joyStick = game.plugins.get("rexVirtualJoystick");

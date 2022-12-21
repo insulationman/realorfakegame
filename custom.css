@@ -8,3 +8,9 @@ canvas {
   /* setting display to block is really important*/
   display: block;
 }
+
+/* set canvas size to fill the screen */
+/* canvas {
+  width: 100%;
+  height: 100%;
+} */
