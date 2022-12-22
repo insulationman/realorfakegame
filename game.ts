@@ -6,9 +6,8 @@ import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-p
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: document.body.clientWidth * window.devicePixelRatio,
-  height: document.body.clientHeight * window.devicePixelRatio,
-
+  width: document.body.clientWidth,
+  height: document.body.clientHeight,
   physics: {
     default: "arcade",
   },

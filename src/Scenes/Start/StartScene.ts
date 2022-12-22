@@ -5,25 +5,32 @@ export default class StartScene extends Phaser.Scene {
     super("start");
   }
 
-  private label!: Phaser.GameObjects.Text;
+  private label!: Phaser.GameObjects.BitmapText;
   preload() {
     this.load.image("logo", "src/Assets/Images/Rof-300-400.png");
+    this.load.bitmapFont(
+      "BitMapFont",
+      "src/Assets/BitMapFonts/BitMapFont_0.png",
+      "src/Assets/BitMapFonts/BitMapFont.fnt"
+    );
+    this.load.bitmapFont(
+      "BitMapFont2",
+      "src/Assets/BitMapFonts/BitMapFont2_0.png",
+      "src/Assets/BitMapFonts/BitMapFont2.fnt"
+    );
   }
 
   create() {
-    //set background color
-    this.cameras.main.setBackgroundColor("#FFFFFF");
+    this.label = this.add.bitmapText(
+      40,
+      100,
+      "BitMapFont",
+      "Greetings \ntraveller!\n",
+      16
+    );
 
-    this.label = this.add.text(50, 100, "", {
-      // font: "20px Arial",
-      fontSize: "24px",
-      color: "#000000",
-      wordWrap: { width: document.body.clientWidth - 100 },
-    });
-
-    this.typewriteTextWrapped(
-      "Greetings traveller! \n......\nYou will go through a journey to find the lost treasure of the ancient kingdom of Real or Fake. \n......\nAre you ready?\n" +
-        "Press any of the arrow keys or touch the screen to start."
+    this.typewriteText(
+      "\nYour experience\nbegins here.\n\nThis is an \nadventure game. \n\nYou will be \npresented with an\nancient series of\nchoices. \n\nChoose wisely. \n\nChoose Real. \n\nOr choose Fake.\n\nOr choose Feke.\n\nOr choose Real \nor Fake.\n\n \n\nPress any key or\ntouch the screen to \ncontinue."
     );
 
     this.input.keyboard.on("keydown", () => {
@@ -33,28 +40,9 @@ export default class StartScene extends Phaser.Scene {
     this.input.on("pointerdown", () => {
       this.scene.start("game-scene");
     });
-
-    //This code will center the Real or fake logo dynamically
-    // const logo = this.add.image(0, 0, "logo");
-    //center image dynamically
-    // Phaser.Display.Align.In.Center(
-    //   logo,
-    //   this.add.zone(
-    //     document.body.clientWidth / 2,
-    //     document.body.clientHeight / 2,
-    //     document.body.clientWidth,
-    //     document.body.clientHeight
-    //   )
-    // );
-  }
-  typewriteTextWrapped(text) {
-    const lines = this.label.getWrappedText(text);
-    const wrappedText = lines.join("\n");
-
-    this.typewriteText(wrappedText);
   }
 
-  typewriteText(text) {
+  typewriteText(text: string) {
     const length = text.length;
     let i = 0;
     this.time.addEvent({
