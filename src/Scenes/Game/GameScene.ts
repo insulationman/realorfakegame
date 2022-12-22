@@ -7,10 +7,12 @@ export default class GameScene extends Phaser.Scene {
     super("game-scene");
   }
   private map!: Tilemaps.Tilemap;
-  private layer!: Tilemaps.TilemapLayer;
   private player!: Phaser.Physics.Arcade.Sprite;
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private joystick!: VirtualJoyStick;
+
+  private groundlayer!: Tilemaps.TilemapLayer;
+  private waterlayer!: Tilemaps.TilemapLayer;
 
   preload() {
     this.cameras.main.setBackgroundColor("#FFFFFF");
@@ -47,8 +49,12 @@ export default class GameScene extends Phaser.Scene {
     //add the tileset
     this.map.addTilesetImage("villagetileset", "tiles");
     //create the layer
-    this.layer = this.map.createLayer("Ground", "villagetileset", 0, 0);
-    this.layer = this.map.createLayer("Objects", "villagetileset", 0, 0);
+    this.groundlayer = this.map.createLayer("Ground", "villagetileset", 0, 0);
+    this.waterlayer = this.map.createLayer("Water", "villagetileset", 0, 0);
+    this.map.createLayer("Objects", "villagetileset", 0, 0);
+
+    //set the boundaries of our game world (collision with water)
+    this.map.setCollisionBetween(1, 10000, true, false, "Water");
   }
 
   private initPlayer(): void {
@@ -56,7 +62,7 @@ export default class GameScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(1520, 2300, "player");
     //set the player to collide with the layer
     // this.layer.setCollisionByProperty({ collides: true });
-    // this.physics.add.collider(this.player, this.layer);
+    this.physics.add.collider(this.player, this.waterlayer);
   }
 
   private initControls(): void {
