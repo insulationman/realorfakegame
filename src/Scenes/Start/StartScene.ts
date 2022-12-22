@@ -23,14 +23,14 @@ export default class StartScene extends Phaser.Scene {
   create() {
     this.label = this.add.bitmapText(
       40,
-      100,
+      70,
       "BitMapFont",
       "Greetings \ntraveller!\n",
       16
     );
 
     this.typewriteText(
-      "\nYour experience\nbegins here.\n\nThis is an \nadventure game. \n\nYou will be \npresented with an\nancient series of\nchoices. \n\nChoose wisely. \n\nChoose Real. \n\nOr choose Fake.\n\nOr choose Feke.\n\nOr choose Real \nor Fake.\n\n \n\nPress any key or\ntouch the screen to \ncontinue."
+      "\nYour experience\nbegins with this \ngame.\n\nYou will be \npresented with an\nancient series of\nchoices. \n\nChoose wisely. \n\nChoose Real. \n\nOr choose Fake.\n\nOr choose Feke.\n\nOr choose Real \nor Fake.\n\n \n\nPress any key or\ntouch the screen to \ncontinue."
     );
 
     this.input.keyboard.on("keydown", () => {
