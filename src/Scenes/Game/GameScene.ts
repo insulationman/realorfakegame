@@ -13,6 +13,7 @@ export default class GameScene extends Phaser.Scene {
 
   private groundlayer!: Tilemaps.TilemapLayer;
   private waterlayer!: Tilemaps.TilemapLayer;
+  private collidingobjectslayer!: Tilemaps.TilemapLayer;
 
   preload() {
     this.cameras.main.setBackgroundColor("#FFFFFF");
@@ -51,10 +52,17 @@ export default class GameScene extends Phaser.Scene {
     //create the layer
     this.groundlayer = this.map.createLayer("Ground", "villagetileset", 0, 0);
     this.waterlayer = this.map.createLayer("Water", "villagetileset", 0, 0);
-    this.map.createLayer("Objects", "villagetileset", 0, 0);
+    this.collidingobjectslayer = this.map.createLayer(
+      "CollidingObjects",
+      "villagetileset",
+      0,
+      0
+    );
+    this.map.createLayer("NonCollidingObjects", "villagetileset", 0, 0);
 
     //set the boundaries of our game world (collision with water)
     this.map.setCollisionBetween(1, 10000, true, false, "Water");
+    this.map.setCollisionBetween(1, 10000, true, false, "CollidingObjects");
   }
 
   private initPlayer(): void {
@@ -63,6 +71,7 @@ export default class GameScene extends Phaser.Scene {
     //set the player to collide with the layer
     // this.layer.setCollisionByProperty({ collides: true });
     this.physics.add.collider(this.player, this.waterlayer);
+    this.physics.add.collider(this.player, this.collidingobjectslayer);
   }
 
   private initControls(): void {
