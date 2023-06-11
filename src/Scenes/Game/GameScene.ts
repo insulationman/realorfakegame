@@ -31,6 +31,7 @@ export default class GameScene extends Phaser.Scene {
     );
     //Load player
     this.load.image("player", "src/Assets/Sprites/player.png");
+    this.load.audio("music", "src/Assets/Audio/theme.mp3");
   }
 
   create() {
@@ -40,11 +41,17 @@ export default class GameScene extends Phaser.Scene {
     this.initControls();
     this.initCameraFollow();
     this.initJoystick();
+    this.initMusic();
   }
 
   update() {
     this.updatePlayerWithArrows();
     this.updatePlayerWithJoystick();
+  }
+
+  private initMusic(): void {
+    const music = this.sound.add("music");
+    music.play();
   }
 
   private initMap(): void {
