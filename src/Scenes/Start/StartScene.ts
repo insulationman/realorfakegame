@@ -30,7 +30,7 @@ export default class StartScene extends Phaser.Scene {
     );
 
     this.typewriteText(
-      "\nYour experience\nbegins with this \ngame.\n\nYou will be \npresented with an\nancient series of\nchoices. \n\nChoose wisely. \n\nChoose Real. \n\nOr choose Fake.\n\nOr choose Feke.\n\nOr choose Real \nor Fake.\n\n \n\nPress any key or\ntouch the screen \nto continue."
+      "\nYour experience\nbegins with this \nexperience.\n\nYou will be \npresented with an\nancient series of\npixels. \n\nChoose wisely. \n\nChoose Real. \n\nOr choose Fake.\n\nOr choose Feke.\n\nOr choose Real \nor Fake.\n\n \n\nPress any key or\ntouch the screen \nto continue."
     );
 
     this.input.keyboard.on("keydown", () => {
