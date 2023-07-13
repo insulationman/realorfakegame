@@ -5,7 +5,7 @@ export default defineConfig({
 
   // Define `base` because this deploys to user.github.io/repo-name/
   base: "./",
-  build: {
-    outDir: "./docs",
-  },
+  // build: {
+  //   outDir: "./docs",
+  // },
 });
