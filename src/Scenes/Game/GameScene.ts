@@ -2,6 +2,11 @@ import { Tilemaps } from "phaser";
 import VirtualJoyStick from "phaser3-rex-plugins/plugins/virtualjoystick";
 import VirtualJoyStickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin";
 
+import themeSongUrl from "../../Assets/Audio/theme.mp3";
+import playerSpriteUrl from "../../Assets/Sprites/player.png";
+import tileMapJsonUrl from "../../Assets/Tilemaps/Json/hagudden-1.json?url";
+import tilePngUrl from "../../Assets/Tilemaps/Tiles/Serene_Village_32x32.png";
+
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super("game-scene");
@@ -20,18 +25,12 @@ export default class GameScene extends Phaser.Scene {
   preload() {
     this.cameras.main.setBackgroundColor("#FFFFFF");
     //Load tilemap
-    this.load.tilemapTiledJSON(
-      "Ground",
-      "src/Assets/Tilemaps/Json/hagudden-1.json"
-    );
+    this.load.tilemapTiledJSON("Ground", tileMapJsonUrl);
     //Load tileset
-    this.load.image(
-      "tiles",
-      "src/Assets/Tilemaps/Tiles/Serene_Village_32x32.png"
-    );
+    this.load.image("tiles", tilePngUrl);
     //Load player
-    this.load.image("player", "src/Assets/Sprites/player.png");
-    this.load.audio("music", "src/Assets/Audio/theme.mp3");
+    this.load.image("player", playerSpriteUrl);
+    this.load.audio("music", themeSongUrl);
   }
 
   create() {

@@ -1,5 +1,9 @@
 import Phaser from "phaser";
 
+import BitmapFntUrl from "../../Assets/BitMapFonts/BitMapFont.fnt?url";
+import BitmapPngUrl from "../../Assets/BitMapFonts/BitMapFont_0.png";
+import LogoUrl from "../../Assets/Images/Rof-300-400.png";
+
 export default class StartScene extends Phaser.Scene {
   constructor() {
     super("start");
@@ -7,17 +11,8 @@ export default class StartScene extends Phaser.Scene {
 
   private label!: Phaser.GameObjects.BitmapText;
   preload() {
-    this.load.image("logo", "src/Assets/Images/Rof-300-400.png");
-    this.load.bitmapFont(
-      "BitMapFont",
-      "src/Assets/BitMapFonts/BitMapFont_0.png",
-      "src/Assets/BitMapFonts/BitMapFont.fnt"
-    );
-    this.load.bitmapFont(
-      "BitMapFont2",
-      "src/Assets/BitMapFonts/BitMapFont2_0.png",
-      "src/Assets/BitMapFonts/BitMapFont2.fnt"
-    );
+    this.load.image("logo", LogoUrl);
+    this.load.bitmapFont("BitMapFont", BitmapPngUrl, BitmapFntUrl);
   }
 
   create() {
