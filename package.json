@@ -10,15 +10,14 @@
   "license": "ISC",
   "dependencies": {
     "phaser": "^3.55.2",
-    "phaser3-rex-plugins": "^1.1.78",
-    "vite": "^4.4.3"
+    "phaser3-rex-plugins": "^1.1.78"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.46.1",
     "@typescript-eslint/parser": "^5.46.1",
     "browser-sync": "^2.27.10",
     "eslint": "^8.30.0",
-    "parcel": "^2.8.2",
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.4",
+    "vite": "^4.4.3"
   }
 }
