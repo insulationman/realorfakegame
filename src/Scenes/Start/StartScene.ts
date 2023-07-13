@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 import BitmapFntUrl from "../../Assets/BitMapFonts/BitMapFont.fnt?url";
-import BitmapPngUrl from "../../Assets/BitMapFonts/BitMapFont_0.png?url";
+import BitmapPngUrl from "../../Assets/BitMapFonts/BitMapFont.png";
 import LogoUrl from "../../Assets/Images/Rof-300-400.png";
 
 export default class StartScene extends Phaser.Scene {
