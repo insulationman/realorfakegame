@@ -10,7 +10,6 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, "playerspritesheet", 0);
     this.addAnimations();
     this.initCameraFollow();
-    this.initJoystick();
     this.initControls();
     scene.add.existing(this);
     scene.physics.add.existing(this);
@@ -18,6 +17,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.setBounce(0.2);
     this.setDrag(1000, 1000);
     this.setDepth(100);
+    this.initJoystick();
   }
 
   public moveStill(): void {
@@ -127,13 +127,17 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     ) as VirtualJoyStickPlugin;
 
     //add the joystick
+    const basecircle = this.scene.add.circle(0, 0, 50, 0x888888);
+    basecircle.depth = 100;
+    const thumbcircle = this.scene.add.circle(0, 0, 25, 0xcccccc);
+    thumbcircle.depth = 101;
     this.joystick = joystickplugin.add(this.scene, {
       x: document.body.clientWidth - 100,
       y: document.body.clientHeight - 200,
       radius: 50,
-      base: this.scene.add.circle(0, 0, 50, 0x888888),
-      thumb: this.scene.add.circle(0, 0, 25, 0xcccccc),
-      dir: "8dir",
+      base: basecircle,
+      thumb: thumbcircle,
+      dir: "4dir",
       forceMin: 16,
       enable: true,
     });
