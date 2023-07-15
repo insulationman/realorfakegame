@@ -87,12 +87,27 @@ export default class OrustScene extends Phaser.Scene {
       key: "spin",
       frameRate: 5,
       frames: this.anims.generateFrameNumbers("playerspritesheet", {
-        start: 0,
-        end: 11,
+        outputArray: [
+          { frame: 0 },
+          { frame: 1 },
+          { frame: 2 },
+          { frame: 3 },
+          { frame: 4 },
+          { frame: 5 },
+        ],
       }),
       repeat: 1,
     });
-    this.player.anims.play("spin", true);
+    this.anims.create({
+      key: "down",
+      frameRate: 2,
+      frames: this.anims.generateFrameNumbers("playerspritesheet", {
+        start: 6,
+        end: 8,
+      }),
+      repeat: -1,
+    });
+    // this.player.anims.play("down", true);
   }
 
   private initControls(): void {
@@ -106,14 +121,13 @@ export default class OrustScene extends Phaser.Scene {
       this.player.setVelocityX(-160);
     } else if (this.cursors.right.isDown) {
       this.player.setVelocityX(160);
-    } else {
-      this.player.setVelocityX(0);
-    }
-    if (this.cursors.up.isDown) {
+    } else if (this.cursors.up.isDown) {
       this.player.setVelocityY(-160);
     } else if (this.cursors.down.isDown) {
+      this.player.anims.play("down", true);
       this.player.setVelocityY(160);
     } else {
+      this.player.anims.play("spin", true);
       this.player.setVelocityY(0);
     }
   }
