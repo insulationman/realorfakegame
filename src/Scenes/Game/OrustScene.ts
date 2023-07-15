@@ -129,6 +129,7 @@ export default class OrustScene extends Phaser.Scene {
     } else {
       this.player.anims.play("spin", true);
       this.player.setVelocityY(0);
+      this.player.setVelocityX(0);
     }
   }
 
