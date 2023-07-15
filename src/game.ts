@@ -2,6 +2,7 @@
 import Phaser from "phaser";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 import HaguddenScene from "./Scenes/Game/HaguddenScene";
+import OrustScene from "./Scenes/Game/OrustScene";
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -19,7 +20,7 @@ const config: Phaser.Types.Core.GameConfig = {
       },
     ],
   },
-  scene: [HaguddenScene],
+  scene: [OrustScene, HaguddenScene],
 };
 const game = new Phaser.Game(config);
 
