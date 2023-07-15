@@ -24,6 +24,7 @@ export default class OrustScene extends Phaser.Scene {
     this.cameras.main.setBackgroundColor("#FFFFFF");
     //Load tilemap
     this.load.tilemapTiledJSON("Ground", tileMapJsonUrl);
+
     //Load tileset
     this.load.image("tiles", tilePngUrl);
     //Load player
@@ -38,6 +39,7 @@ export default class OrustScene extends Phaser.Scene {
   create() {
     this.player = new Player(this, 200, 100);
     this.initMap();
+
     // this.initMusic();
     this.initCollidingActions();
   }
@@ -58,6 +60,13 @@ export default class OrustScene extends Phaser.Scene {
     this.map.addTilesetImage("villagetileset", "tiles");
     //create the layer
     this.groundlayer = this.map.createLayer("Ground", "villagetileset", 0, 0);
+    //load collision objects
+    this.collidingobjectslayer = this.map.createLayer(
+      "Colliders",
+      "villagetileset",
+      0,
+      0
+    );
   }
 
   private initCollidingActions(): void {
