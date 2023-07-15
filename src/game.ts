@@ -1,4 +1,3 @@
-import StartScene from "./Scenes/Start/StartScene";
 // import HelloWorldScene from "./src/Scenes/HelloWorld/HelloWorldScene";
 import Phaser from "phaser";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
@@ -20,7 +19,7 @@ const config: Phaser.Types.Core.GameConfig = {
       },
     ],
   },
-  scene: [StartScene, GameScene],
+  scene: [GameScene],
 };
 const game = new Phaser.Game(config);
 
