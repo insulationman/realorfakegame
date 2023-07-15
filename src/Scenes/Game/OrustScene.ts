@@ -2,18 +2,19 @@ import { Tilemaps } from "phaser";
 import VirtualJoyStick from "phaser3-rex-plugins/plugins/virtualjoystick";
 import VirtualJoyStickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin";
 
-import themeSongUrl from "../../Assets/Audio/theme.mp3";
+// import themeSongUrl from "../../Assets/Audio/theme.mp3";
 import playerSpriteSheetUrl from "../../Assets/SpriteSheets/mage_f.png";
 import playerSpriteUrl from "../../Assets/Sprites/player.png";
 import tileMapJsonUrl from "../../Assets/Tilemaps/Orust/Orust.json?url";
 import tilePngUrl from "../../Assets/Tilemaps/Tiles/Serene_Village_32x32.png";
+import { Player } from "../../Classes/Player";
 
 export default class OrustScene extends Phaser.Scene {
   constructor() {
     super("orust-scene");
   }
   private map!: Tilemaps.Tilemap;
-  private player!: Phaser.Physics.Arcade.Sprite;
+  private player!: Player;
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
   private joystick!: VirtualJoyStick;
 
@@ -31,7 +32,7 @@ export default class OrustScene extends Phaser.Scene {
     this.load.image("tiles", tilePngUrl);
     //Load player
     this.load.image("player", playerSpriteUrl);
-    this.load.audio("music", themeSongUrl);
+    // this.load.audio("music", themeSongUrl);
     this.load.spritesheet("playerspritesheet", playerSpriteSheetUrl, {
       frameWidth: 32,
       frameHeight: 36,
@@ -39,17 +40,16 @@ export default class OrustScene extends Phaser.Scene {
   }
 
   create() {
+    this.player = new Player(this, 100, 1000);
     this.initMap();
-    this.initPlayer();
     this.initControls();
     this.initCameraFollow();
     this.initJoystick();
-    this.initMusic();
+    // this.initMusic();
   }
 
   update() {
-    this.updatePlayerWithArrows();
-    this.updatePlayerWithJoystick();
+    this.updatePlayer();
   }
 
   private initMusic(): void {
@@ -75,61 +75,24 @@ export default class OrustScene extends Phaser.Scene {
     );
   }
 
-  private initPlayer(): void {
-    //add the player
-    this.player = this.physics.add.sprite(0, 0, "playerspritesheet", 8);
-    //set the player to collide with the layer
-    // this.layer.setCollisionByProperty({ collides: true });
-    this.physics.add.collider(this.player, this.waterlayer);
-    this.physics.add.collider(this.player, this.collidingobjectslayer);
-
-    this.anims.create({
-      key: "spin",
-      frameRate: 5,
-      frames: this.anims.generateFrameNumbers("playerspritesheet", {
-        outputArray: [
-          { frame: 0 },
-          { frame: 1 },
-          { frame: 2 },
-          { frame: 3 },
-          { frame: 4 },
-          { frame: 5 },
-        ],
-      }),
-      repeat: 1,
-    });
-    this.anims.create({
-      key: "down",
-      frameRate: 2,
-      frames: this.anims.generateFrameNumbers("playerspritesheet", {
-        start: 6,
-        end: 8,
-      }),
-      repeat: -1,
-    });
-    // this.player.anims.play("down", true);
-  }
-
   private initControls(): void {
     //add the controls
     this.cursors = this.input.keyboard.createCursorKeys();
   }
 
-  private updatePlayerWithArrows(): void {
+  private updatePlayer(): void {
+    const joyStick = this.joystick;
     //move the player
-    if (this.cursors.left.isDown) {
-      this.player.setVelocityX(-160);
-    } else if (this.cursors.right.isDown) {
-      this.player.setVelocityX(160);
-    } else if (this.cursors.up.isDown) {
-      this.player.setVelocityY(-160);
-    } else if (this.cursors.down.isDown) {
-      this.player.anims.play("down", true);
-      this.player.setVelocityY(160);
+    if (this.cursors.left.isDown || joyStick.left) {
+      this.player.moveLeft();
+    } else if (this.cursors.right.isDown || joyStick.right) {
+      this.player.moveRight();
+    } else if (this.cursors.up.isDown || joyStick.up) {
+      this.player.moveUp();
+    } else if (this.cursors.down.isDown || joyStick.down) {
+      this.player.moveDown();
     } else {
-      this.player.anims.play("spin", true);
-      this.player.setVelocityY(0);
-      this.player.setVelocityX(0);
+      this.player.moveStill();
     }
   }
 
@@ -155,23 +118,5 @@ export default class OrustScene extends Phaser.Scene {
       forceMin: 16,
       enable: true,
     });
-  }
-
-  //add the joystick events
-  private updatePlayerWithJoystick(): void {
-    const joyStick = this.joystick;
-    const player = this.player;
-
-    if (joyStick.left) {
-      player.setVelocityX(-160);
-    } else if (joyStick.right) {
-      player.setVelocityX(160);
-    }
-    if (joyStick.up) {
-      player.setVelocityY(-160);
-    }
-    if (joyStick.down) {
-      player.setVelocityY(160);
-    }
   }
 }
