@@ -3,6 +3,7 @@ import VirtualJoyStick from "phaser3-rex-plugins/plugins/virtualjoystick";
 import VirtualJoyStickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin";
 
 import themeSongUrl from "../../Assets/Audio/theme.mp3";
+import playerSpriteSheetUrl from "../../Assets/SpriteSheets/mage_f.png";
 import playerSpriteUrl from "../../Assets/Sprites/player.png";
 import tileMapJsonUrl from "../../Assets/Tilemaps/Orust/Orust.json?url";
 import tilePngUrl from "../../Assets/Tilemaps/Tiles/Serene_Village_32x32.png";
@@ -31,6 +32,10 @@ export default class OrustScene extends Phaser.Scene {
     //Load player
     this.load.image("player", playerSpriteUrl);
     this.load.audio("music", themeSongUrl);
+    this.load.spritesheet("playerspritesheet", playerSpriteSheetUrl, {
+      frameWidth: 32,
+      frameHeight: 36,
+    });
   }
 
   create() {
@@ -72,11 +77,22 @@ export default class OrustScene extends Phaser.Scene {
 
   private initPlayer(): void {
     //add the player
-    this.player = this.physics.add.sprite(0, 0, "player");
+    this.player = this.physics.add.sprite(0, 0, "playerspritesheet", 8);
     //set the player to collide with the layer
     // this.layer.setCollisionByProperty({ collides: true });
     this.physics.add.collider(this.player, this.waterlayer);
     this.physics.add.collider(this.player, this.collidingobjectslayer);
+
+    this.anims.create({
+      key: "spin",
+      frameRate: 5,
+      frames: this.anims.generateFrameNumbers("playerspritesheet", {
+        start: 0,
+        end: 11,
+      }),
+      repeat: 1,
+    });
+    this.player.anims.play("spin", true);
   }
 
   private initControls(): void {
