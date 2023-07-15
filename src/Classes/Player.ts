@@ -1,7 +1,17 @@
+import VirtualJoyStick from "phaser3-rex-plugins/plugins/virtualjoystick";
+import VirtualJoyStickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin";
+
 export class Player extends Phaser.Physics.Arcade.Sprite {
+  private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
+  private joystick!: VirtualJoyStick;
+  private cameras = this.scene.cameras;
+
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, "playerspritesheet", 0);
     this.addAnimations();
+    this.initCameraFollow();
+    this.initJoystick();
+    this.initControls();
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.setCollideWorldBounds(true);
@@ -81,6 +91,51 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
         end: 11,
       }),
       repeat: -1,
+    });
+  }
+
+  public initControls(): void {
+    //add the controls
+    this.cursors = this.scene.input.keyboard.createCursorKeys();
+  }
+
+  public updatePlayer(): void {
+    const joyStick = this.joystick;
+    //move the player
+    if (this.cursors.left.isDown || joyStick.left) {
+      this.moveLeft();
+    } else if (this.cursors.right.isDown || joyStick.right) {
+      this.moveRight();
+    } else if (this.cursors.up.isDown || joyStick.up) {
+      this.moveUp();
+    } else if (this.cursors.down.isDown || joyStick.down) {
+      this.moveDown();
+    } else {
+      this.moveStill();
+    }
+  }
+
+  private initCameraFollow(): void {
+    //update the camera
+    this.cameras.main.startFollow(this);
+    this.cameras.main.roundPixels = true;
+  }
+
+  private initJoystick(): void {
+    const joystickplugin = this.scene.plugins.get(
+      "rexVirtualJoystick"
+    ) as VirtualJoyStickPlugin;
+
+    //add the joystick
+    this.joystick = joystickplugin.add(this.scene, {
+      x: document.body.clientWidth - 100,
+      y: document.body.clientHeight - 200,
+      radius: 50,
+      base: this.scene.add.circle(0, 0, 50, 0x888888),
+      thumb: this.scene.add.circle(0, 0, 25, 0xcccccc),
+      dir: "8dir",
+      forceMin: 16,
+      enable: true,
     });
   }
 }
