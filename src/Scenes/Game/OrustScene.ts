@@ -36,9 +36,10 @@ export default class OrustScene extends Phaser.Scene {
   }
 
   create() {
-    this.player = new Player(this, 100, 100);
+    this.player = new Player(this, 200, 100);
     this.initMap();
     // this.initMusic();
+    this.initCollidingActions();
   }
 
   update() {
@@ -57,6 +58,23 @@ export default class OrustScene extends Phaser.Scene {
     this.map.addTilesetImage("villagetileset", "tiles");
     //create the layer
     this.groundlayer = this.map.createLayer("Ground", "villagetileset", 0, 0);
+  }
+
+  private initCollidingActions(): void {
+    const objects = this.map.createFromObjects("Interactive", {
+      name: "house",
+    });
+
+    const house = objects[0];
+    //make the object transparent
+
+    if (house) {
+      this.physics.world.enable(house);
+      //alert when the player collides with the house
+      this.physics.add.overlap(this.player, house, () => {
+        this.scene.start("hagudden-scene");
+      });
+    }
   }
 
   private initHigherLayers(): void {
