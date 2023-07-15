@@ -1,7 +1,7 @@
 // import HelloWorldScene from "./src/Scenes/HelloWorld/HelloWorldScene";
 import Phaser from "phaser";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
-import GameScene from "./Scenes/Game/GameScene";
+import HaguddenScene from "./Scenes/Game/HaguddenScene";
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -19,7 +19,7 @@ const config: Phaser.Types.Core.GameConfig = {
       },
     ],
   },
-  scene: [GameScene],
+  scene: [HaguddenScene],
 };
 const game = new Phaser.Game(config);
 

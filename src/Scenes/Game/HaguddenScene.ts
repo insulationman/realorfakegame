@@ -4,12 +4,12 @@ import VirtualJoyStickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-p
 
 import themeSongUrl from "../../Assets/Audio/theme.mp3";
 import playerSpriteUrl from "../../Assets/Sprites/player.png";
-import tileMapJsonUrl from "../../Assets/Tilemaps/Json/hagudden-1.json?url";
+import tileMapJsonUrl from "../../Assets/Tilemaps/Hagudden/hagudden-1.json?url";
 import tilePngUrl from "../../Assets/Tilemaps/Tiles/Serene_Village_32x32.png";
 
-export default class GameScene extends Phaser.Scene {
+export default class HaguddenScene extends Phaser.Scene {
   constructor() {
-    super("game-scene");
+    super("hagudden-scene");
   }
   private map!: Tilemaps.Tilemap;
   private player!: Phaser.Physics.Arcade.Sprite;
