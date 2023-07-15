@@ -36,7 +36,7 @@ export default class OrustScene extends Phaser.Scene {
   }
 
   create() {
-    this.player = new Player(this, 100, 1000);
+    this.player = new Player(this, 100, 100);
     this.initMap();
     // this.initMusic();
   }
