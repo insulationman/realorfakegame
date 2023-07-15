@@ -70,6 +70,7 @@ export default class OrustScene extends Phaser.Scene {
 
     if (house) {
       this.physics.world.enable(house);
+      house.removeFromDisplayList();
       //alert when the player collides with the house
       this.physics.add.overlap(this.player, house, () => {
         this.scene.start("hagudden-scene");
