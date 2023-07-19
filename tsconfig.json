@@ -12,6 +12,7 @@
     "esModuleInterop": true, // fixes some issues TS originally had with the ES6 spec where TypeScript treats CommonJS/AMD/UMD modules similar to ES6 module
     "moduleResolution": "node", // Pretty much always node for modern JS. Other option is "classic"
     "paths": {}, // A series of entries which re-map imports to lookup locations relative to the baseUrl
+    "allowJs": true, // Allow JavaScript files to be a part of your program. Use the checkJS option to get errors from these files.
 
     // Source Map
     "sourceMap": true, // enables the use of source maps for debuggers and error reporting etc

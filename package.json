@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "phaser": "^3.55.2",
+    "phaser-animated-tiles-phaser3.5": "^2.0.5",
     "phaser3-rex-plugins": "^1.1.78"
   },
   "devDependencies": {

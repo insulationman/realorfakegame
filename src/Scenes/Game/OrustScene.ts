@@ -1,7 +1,9 @@
 import { Tilemaps } from "phaser";
 
 // import themeSongUrl from "../../Assets/Audio/theme.mp3";
+import AnimatedTiles from "phaser-animated-tiles-phaser3.5/dist/AnimatedTiles.min.js";
 import playerSpriteSheetUrl from "../../Assets/SpriteSheets/mage_f.png";
+import fireStripUrl from "../../Assets/SpriteSheets/sFire_strip5_32x32.png";
 import playerSpriteUrl from "../../Assets/Sprites/player.png";
 import tileMapJsonUrl from "../../Assets/Tilemaps/Orust/Orust.json?url";
 import tilePngUrl from "../../Assets/Tilemaps/Tiles/Serene_Village_32x32.png";
@@ -13,9 +15,11 @@ export default class OrustScene extends Phaser.Scene {
   }
   private map!: Tilemaps.Tilemap;
   private player!: Player;
+  private animatedTiles!: AnimatedTiles;
 
   private groundlayer!: Tilemaps.TilemapLayer;
   private waterlayer!: Tilemaps.TilemapLayer;
+  private dynamiclayer!: Tilemaps.TilemapLayer;
   private collidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidinghigherlayer!: Tilemaps.TilemapLayer;
@@ -27,6 +31,7 @@ export default class OrustScene extends Phaser.Scene {
 
     //Load tileset
     this.load.image("tiles", tilePngUrl);
+    this.load.image("fire", fireStripUrl);
     //Load player
     this.load.image("player", playerSpriteUrl);
     // this.load.audio("music", themeSongUrl);
@@ -34,14 +39,21 @@ export default class OrustScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 36,
     });
+    this.load.scenePlugin(
+      "animatedTiles",
+      AnimatedTiles,
+      "animatedTiles",
+      "animatedTiles"
+    );
   }
 
   create() {
     this.player = new Player(this, 200, 100);
     this.initMap();
-
     // this.initMusic();
     this.initCollidingActions();
+    //get the animated tiles plugin
+    this.animatedTiles.init(this.map);
   }
 
   update() {
@@ -58,8 +70,11 @@ export default class OrustScene extends Phaser.Scene {
     this.map = this.add.tilemap("Ground");
     //add the tileset
     this.map.addTilesetImage("villagetileset", "tiles");
+    this.map.addTilesetImage("Firestrip", "fire");
     //create the layer
     this.groundlayer = this.map.createLayer("Ground", "villagetileset", 0, 0);
+    this.waterlayer = this.map.createLayer("Under", "villagetileset", 0, 0);
+    this.dynamiclayer = this.map.createLayer("Dynamic", "Firestrip", 0, 0);
     //load collision objects
     this.collidingobjectslayer = this.map.createLayer(
       "Colliders",
