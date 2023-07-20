@@ -7,6 +7,7 @@ import fireStripUrl from "../../Assets/SpriteSheets/sFire_strip5_32x32.png";
 import playerSpriteUrl from "../../Assets/Sprites/player.png";
 import tileMapJsonUrl from "../../Assets/Tilemaps/Orust/Orust.json?url";
 import tilePngUrl from "../../Assets/Tilemaps/Tiles/Serene_Village_32x32.png";
+import { Dialog } from "../../Classes/Dialog";
 import { Player } from "../../Classes/Player";
 
 export default class OrustScene extends Phaser.Scene {
@@ -54,6 +55,8 @@ export default class OrustScene extends Phaser.Scene {
     this.initCollidingActions();
     //get the animated tiles plugin
     this.animatedTiles.init(this.map);
+    //create a dialog
+    const dialog = new Dialog("Holy shit, a dialog box!");
   }
 
   update() {
