@@ -13,11 +13,13 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.initControls();
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.setCollideWorldBounds(true);
+    this.setCollideWorldBounds(false);
     this.setBounce(0.2);
     this.setDrag(1000, 1000);
     this.setDepth(100);
     this.initJoystick();
+    this.body.setSize(20, 20);
+    this.body.setOffset(0, 12);
   }
 
   public moveStill(): void {
