@@ -19,7 +19,7 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.setDepth(100);
     this.initJoystick();
     this.body.setSize(20, 20);
-    this.body.setOffset(0, 12);
+    this.body.setOffset(0, 16);
   }
 
   public moveStill(): void {
