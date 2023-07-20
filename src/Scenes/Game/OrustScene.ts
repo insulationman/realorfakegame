@@ -26,7 +26,7 @@ export default class OrustScene extends Phaser.Scene {
   private noncollidinghigherlayer!: Tilemaps.TilemapLayer;
 
   preload() {
-    this.cameras.main.setBackgroundColor("#FFFFFF");
+    this.cameras.main.setBackgroundColor("#696969");
     //Load tilemap
     this.load.tilemapTiledJSON("Ground", tileMapJsonUrl);
 
@@ -49,7 +49,7 @@ export default class OrustScene extends Phaser.Scene {
   }
 
   create() {
-    this.player = new Player(this, 200, 100);
+    this.player = new Player(this, 300, 500);
     this.initMap();
     // this.initMusic();
     this.initCollidingActions();
