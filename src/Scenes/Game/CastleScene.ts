@@ -27,7 +27,7 @@ export default class CastleScene extends Phaser.Scene {
   preload() {
     this.cameras.main.setBackgroundColor("#FFFFFF");
     //Load tilemap
-    this.load.tilemapTiledJSON("Ground", tileMapJsonUrl);
+    this.load.tilemapTiledJSON("CastleTilemap", tileMapJsonUrl);
     //Load player
     this.load.image("player", playerSpriteUrl);
     // this.load.audio("music", themeSongUrl);
@@ -36,7 +36,7 @@ export default class CastleScene extends Phaser.Scene {
       frameHeight: 36,
     });
     //Load tileset
-    this.load.image("tiles", tilePngUrl);
+    this.load.image("castletiles", tilePngUrl);
   }
 
   create() {
@@ -57,9 +57,9 @@ export default class CastleScene extends Phaser.Scene {
 
   private initMap(): void {
     //add the tilemap
-    this.map = this.add.tilemap("Ground");
+    this.map = this.add.tilemap("CastleTilemap");
     //add the tileset
-    this.map.addTilesetImage("Castle2", "tiles");
+    this.map.addTilesetImage("Castle2", "castletiles");
     //create the layer
     this.groundlayer = this.map.createLayer("Ground", "Castle2", 0, 0);
     this.collidingobjectslayer = this.map.createLayer(
