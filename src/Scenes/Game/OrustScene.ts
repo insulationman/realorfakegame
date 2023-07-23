@@ -17,7 +17,7 @@ export default class OrustScene extends Phaser.Scene {
   private map!: Tilemaps.Tilemap;
   private player!: Player;
   private animatedTiles!: AnimatedTiles;
-
+// kuk
   private groundlayer!: Tilemaps.TilemapLayer;
   private waterlayer!: Tilemaps.TilemapLayer;
   private dynamiclayer!: Tilemaps.TilemapLayer;
