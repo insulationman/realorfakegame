@@ -1,5 +1,23 @@
 // import { Tilemaps } from "phaser";
 
+import { Tilemaps } from "phaser";
+
+export function AddObjectsFromObjectLayer(
+  scene: Phaser.Scene,
+  map: Tilemaps.Tilemap,
+  objectLayerName: string,
+  spritesheetName: string
+): Phaser.Physics.Arcade.StaticGroup {
+  const group = scene.physics.add.staticGroup();
+  const objects = map.getObjectLayer(objectLayerName)["objects"];
+  //add all objects in the layer and add them to the mushrooms list
+  objects.forEach((object) => {
+    const tileArtId = object["gid"] ? object["gid"] - 1 : 0;
+    group.create(object.x, object.y, spritesheetName, tileArtId);
+  });
+  return group;
+}
+
 // export function FindTilesByType(
 //   map: Tilemaps.Tilemap,
 //   layer: Tilemaps.ObjectLayer,
@@ -17,5 +35,3 @@
 //   });
 //   return tiles;
 // }
-
-// export function AddObjectsFromObjectLayer()
