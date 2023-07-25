@@ -8,11 +8,15 @@ export function AddObjectsFromObjectLayer(
   objectLayerName: string,
   spritesheetName: string
 ): Phaser.Physics.Arcade.StaticGroup {
+  //create a group of static arcade objects that is added to the scene.
   const group = scene.physics.add.staticGroup();
+  //get all objects contained in the specified object layer
   const objects = map.getObjectLayer(objectLayerName)["objects"];
-  //add all objects in the layer and add them to the mushrooms list
+  //add all objects in the layer to the group of static arcade objects
   objects.forEach((object) => {
+    //get the tile image number of the tile (e.g. the image of a mushroom that is on the 605th frame of the image sheet)
     const tileArtId = object["gid"] ? object["gid"] - 1 : 0;
+    //then create an object that uses the spritesheet (the image containing all tile artwork), and the frame related to this specific tile.
     group.create(object.x, object.y, spritesheetName, tileArtId);
   });
   return group;
