@@ -17,10 +17,11 @@ export default class OrustScene extends Phaser.Scene {
   private map!: Tilemaps.Tilemap;
   private player!: Player;
   private animatedTiles!: AnimatedTiles;
-// kuk
+  // kuk
   private groundlayer!: Tilemaps.TilemapLayer;
   private waterlayer!: Tilemaps.TilemapLayer;
   private dynamiclayer!: Tilemaps.TilemapLayer;
+  private mushrooms!: Phaser.Physics.Arcade.StaticGroup;
   private collidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidinghigherlayer!: Tilemaps.TilemapLayer;
@@ -40,6 +41,10 @@ export default class OrustScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 36,
     });
+    this.load.spritesheet("tilesspritesheet", tilePngUrl, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
     this.load.scenePlugin(
       "animatedTiles",
       AnimatedTiles,
@@ -55,6 +60,7 @@ export default class OrustScene extends Phaser.Scene {
     this.initCollidingActions();
     //get the animated tiles plugin
     this.animatedTiles.init(this.map);
+    this.initMushrooms();
     //create a dialog
     const dialog = new Dialog("Holy shit, a dialog box!");
   }
@@ -85,6 +91,16 @@ export default class OrustScene extends Phaser.Scene {
       0,
       0
     );
+  }
+
+  private initMushrooms(): void {
+    this.mushrooms = this.physics.add.staticGroup();
+    const mushroomLayer = this.map.getObjectLayer("Mushrooms")["objects"];
+    //add all objects in the layer and add them to the mushrooms list
+    mushroomLayer.forEach((object) => {
+      const tileArtId = object["gid"] ? object["gid"] - 1 : 0;
+      this.mushrooms.create(object.x, object.y, "tilesspritesheet", tileArtId);
+    });
   }
 
   private initCollidingActions(): void {
