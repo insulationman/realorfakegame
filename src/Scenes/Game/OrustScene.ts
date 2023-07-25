@@ -104,9 +104,15 @@ export default class OrustScene extends Phaser.Scene {
     //add overlay trigger for all mushrooms
     shrooms.children.iterate((shroom) => {
       this.physics.add.overlap(this.player, shroom, () => {
-        shroom.destroy();
+        this.mushroomPickupCallback(shroom);
       });
     });
+  }
+
+  private mushroomPickupCallback(shroom: Phaser.GameObjects.GameObject): void {
+    //remove the mushroom from the display list
+    shroom.destroy();
+    //we can add more logic here, like adding the mushroom to the player's inventory
   }
 
   private initCollidingActions(): void {
