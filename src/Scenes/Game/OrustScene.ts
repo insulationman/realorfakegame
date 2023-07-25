@@ -101,6 +101,12 @@ export default class OrustScene extends Phaser.Scene {
       "Mushrooms",
       "tilesspritesheet"
     );
+    //add overlay trigger for all mushrooms
+    shrooms.children.iterate((shroom) => {
+      this.physics.add.overlap(this.player, shroom, () => {
+        shroom.destroy();
+      });
+    });
   }
 
   private initCollidingActions(): void {
