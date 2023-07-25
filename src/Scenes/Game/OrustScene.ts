@@ -9,6 +9,7 @@ import tileMapJsonUrl from "../../Assets/Tilemaps/Orust/Orust.json?url";
 import tilePngUrl from "../../Assets/Tilemaps/Tiles/Serene_Village_32x32.png";
 import { Dialog } from "../../Classes/Dialog";
 import { Player } from "../../Classes/Player";
+import { AddObjectsFromObjectLayer } from "../../Helpers/TileHelpers";
 
 export default class OrustScene extends Phaser.Scene {
   constructor() {
@@ -94,13 +95,12 @@ export default class OrustScene extends Phaser.Scene {
   }
 
   private initMushrooms(): void {
-    this.mushrooms = this.physics.add.staticGroup();
-    const mushroomLayer = this.map.getObjectLayer("Mushrooms")["objects"];
-    //add all objects in the layer and add them to the mushrooms list
-    mushroomLayer.forEach((object) => {
-      const tileArtId = object["gid"] ? object["gid"] - 1 : 0;
-      this.mushrooms.create(object.x, object.y, "tilesspritesheet", tileArtId);
-    });
+    const shrooms = AddObjectsFromObjectLayer(
+      this,
+      this.map,
+      "Mushrooms",
+      "tilesspritesheet"
+    );
   }
 
   private initCollidingActions(): void {
