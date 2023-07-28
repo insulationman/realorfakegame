@@ -1,4 +1,4 @@
-import { Tilemaps } from "phaser";
+import { GameObjects, Tilemaps } from "phaser";
 
 // import themeSongUrl from "../../Assets/Audio/theme.mp3";
 import AnimatedTiles from "phaser-animated-tiles-phaser3.5/dist/AnimatedTiles.min.js";
@@ -18,7 +18,7 @@ export default class OrustScene extends Phaser.Scene {
   private map!: Tilemaps.Tilemap;
   private player!: Player;
   private animatedTiles!: AnimatedTiles;
-  // kuk
+
   private groundlayer!: Tilemaps.TilemapLayer;
   private waterlayer!: Tilemaps.TilemapLayer;
   private dynamiclayer!: Tilemaps.TilemapLayer;
@@ -26,6 +26,7 @@ export default class OrustScene extends Phaser.Scene {
   private collidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidinghigherlayer!: Tilemaps.TilemapLayer;
+  private house!: GameObjects.GameObject;
 
   preload() {
     this.cameras.main.setBackgroundColor("#696969");
@@ -64,6 +65,11 @@ export default class OrustScene extends Phaser.Scene {
     this.initMushrooms();
     //create a dialog
     const dialog = new Dialog("Holy shit, a dialog box!");
+  
+    this.scene.get('castle-scene').events.on('player-exit-house', () => {
+        this.player.setX(this.house.body.position.x);
+        this.player.setY(this.house.body.position.y+100)
+      });
   }
 
   update() {
@@ -121,14 +127,16 @@ export default class OrustScene extends Phaser.Scene {
     });
 
     const house = objects[0];
+    //set the global variable house if house is not null
     //make the object transparent
 
     if (house) {
+      this.house = house;
       this.physics.world.enable(house);
       house.removeFromDisplayList();
       //alert when the player collides with the house
       this.physics.add.overlap(this.player, house, () => {
-        this.scene.start("castle-scene");
+        this.scene.switch("castle-scene");
       });
     }
   }
