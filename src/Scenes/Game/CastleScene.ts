@@ -6,6 +6,7 @@ import playerSpriteSheetUrl from "../../Assets/SpriteSheets/mage_f.png";
 import playerSpriteUrl from "../../Assets/Sprites/player.png";
 import tileMapJsonUrl from "../../Assets/Tilemaps/Castle/Castle.json?url";
 
+import { Dialog } from "../../Classes/Dialog";
 import tilePngUrl from "../../Assets/Tilemaps/Tiles/Castle2.png";
 import { Player } from "../../Classes/Player";
 
@@ -35,15 +36,18 @@ export default class CastleScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 36,
     });
+
     //Load tileset
     this.load.image("castletiles", tilePngUrl);
   }
 
   create() {
-    this.player = new Player(this, 500, 400);
+    this.player = new Player(this, 680, 450);
     this.initMap();
     // this.initMusic();
     // this.initCollidingActions();
+    this.initCollidingActions();
+    const dialog = new Dialog("You have entered a mysterious house!");
   }
 
   update() {
@@ -74,7 +78,7 @@ export default class CastleScene extends Phaser.Scene {
 
   private initCollidingActions(): void {
     const objects = this.map.createFromObjects("Interactive", {
-      name: "house",
+      name: "orust",
     });
 
     const house = objects[0];
@@ -83,9 +87,10 @@ export default class CastleScene extends Phaser.Scene {
     if (house) {
       this.physics.world.enable(house);
       house.removeFromDisplayList();
-      //alert when the player collides with the house
+      //alert when the player collides with the orust collider
       this.physics.add.overlap(this.player, house, () => {
-        this.scene.start("hagudden-scene");
+        this.events.emit('player-exit-house');
+        this.scene.switch("orust-scene");
       });
     }
   }
