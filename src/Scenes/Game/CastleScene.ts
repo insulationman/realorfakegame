@@ -1,4 +1,4 @@
-import { Tilemaps } from "phaser";
+import { GameObjects, Tilemaps } from "phaser";
 
 // import themeSongUrl from "../../Assets/Audio/theme.mp3";
 import AnimatedTiles from "phaser-animated-tiles-phaser3.5/dist/AnimatedTiles.min.js";
@@ -24,6 +24,7 @@ export default class CastleScene extends Phaser.Scene {
   private collidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidinghigherlayer!: Tilemaps.TilemapLayer;
+  private orust!: GameObjects.GameObject;
 
   preload() {
     this.cameras.main.setBackgroundColor("#FFFFFF");
@@ -48,6 +49,10 @@ export default class CastleScene extends Phaser.Scene {
     // this.initCollidingActions();
     this.initCollidingActions();
     const dialog = new Dialog("You have entered a mysterious house!");
+    this.scene.get('orust-scene').events.on('player-enter-house', () => {
+      this.player.setX(this.orust.body.position.x);
+      this.player.setY(this.orust.body.position.y-50)
+    });
   }
 
   update() {
@@ -81,14 +86,15 @@ export default class CastleScene extends Phaser.Scene {
       name: "orust",
     });
 
-    const house = objects[0];
+    const orust = objects[0];
     //make the object transparent
 
-    if (house) {
-      this.physics.world.enable(house);
-      house.removeFromDisplayList();
+    if (orust) {
+      this.orust = orust;
+      this.physics.world.enable(orust);
+      orust.removeFromDisplayList();
       //alert when the player collides with the orust collider
-      this.physics.add.overlap(this.player, house, () => {
+      this.physics.add.overlap(this.player, orust, () => {
         this.events.emit('player-exit-house');
         this.scene.switch("orust-scene");
       });

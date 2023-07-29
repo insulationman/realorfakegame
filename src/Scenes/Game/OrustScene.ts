@@ -22,6 +22,7 @@ export default class OrustScene extends Phaser.Scene {
   private groundlayer!: Tilemaps.TilemapLayer;
   private waterlayer!: Tilemaps.TilemapLayer;
   private dynamiclayer!: Tilemaps.TilemapLayer;
+  private toplayer!: Tilemaps.TilemapLayer;
   private mushrooms!: Phaser.Physics.Arcade.StaticGroup;
   private collidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidingobjectslayer!: Tilemaps.TilemapLayer;
@@ -91,6 +92,8 @@ export default class OrustScene extends Phaser.Scene {
     this.groundlayer = this.map.createLayer("Ground", "villagetileset", 0, 0);
     this.waterlayer = this.map.createLayer("Under", "villagetileset", 0, 0);
     this.dynamiclayer = this.map.createLayer("Dynamic", "Firestrip", 0, 0);
+    this.toplayer = this.map.createLayer("Top", "villagetileset", 0, 0);
+    this.toplayer.setDepth(200);
     //load collision objects
     this.collidingobjectslayer = this.map.createLayer(
       "Colliders",
@@ -98,6 +101,8 @@ export default class OrustScene extends Phaser.Scene {
       0,
       0
     );
+    this.map.setCollisionBetween(1, 10000, true, false, "Colliders");
+    this.physics.add.collider(this.player, this.collidingobjectslayer);
   }
 
   private initMushrooms(): void {
@@ -136,6 +141,7 @@ export default class OrustScene extends Phaser.Scene {
       house.removeFromDisplayList();
       //alert when the player collides with the house
       this.physics.add.overlap(this.player, house, () => {
+        this.events.emit('player-enter-house');
         this.scene.switch("castle-scene");
       });
     }
