@@ -22,6 +22,7 @@ export default class CastleScene extends Phaser.Scene {
   private waterlayer!: Tilemaps.TilemapLayer;
   private dynamiclayer!: Tilemaps.TilemapLayer;
   private collidingobjectslayer!: Tilemaps.TilemapLayer;
+  private toplayer!: Tilemaps.TilemapLayer;
   private noncollidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidinghigherlayer!: Tilemaps.TilemapLayer;
   private orust!: GameObjects.GameObject;
@@ -77,6 +78,8 @@ export default class CastleScene extends Phaser.Scene {
       0,
       0
     );
+    this.toplayer = this.map.createLayer("Top", "Castle2", 0, 0);
+    this.toplayer.setDepth(200);
     this.map.setCollisionBetween(1, 10000, true, false, "Collision");
     this.physics.add.collider(this.player, this.collidingobjectslayer);
   }
