@@ -28,8 +28,39 @@ export default class OrustScene extends Phaser.Scene {
   private noncollidingobjectslayer!: Tilemaps.TilemapLayer;
   private noncollidinghigherlayer!: Tilemaps.TilemapLayer;
   private house!: GameObjects.GameObject;
+  private websocket!: WebSocket;
+  private lastUpdate = 0;
+  private ghost!: GameObjects.Sprite;
+
+  //function that will run every half second
+  private updateGhost() {
+    if (this.lastUpdate > 0) {
+      this.lastUpdate--;
+      return;
+    }
+    this.lastUpdate = 50;
+    const updatemessage = JSON.stringify({
+      type: "ghost",
+      ghostCoords: {
+        x: this.player.x,
+        y: this.player.y,
+      },
+    });
+
+    this.websocket.send(updatemessage);
+  }
 
   preload() {
+    this.websocket = new WebSocket("wss://realorfakehub.azurewebsites.net");
+
+    this.websocket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === "ghost") {
+        this.ghost.setX(data.ghostCoords.x);
+        this.ghost.setY(data.ghostCoords.y);
+      }
+    };
+
     this.cameras.main.setBackgroundColor("#696969");
     //Load tilemap
     this.load.tilemapTiledJSON("Ground", tileMapJsonUrl);
@@ -59,6 +90,9 @@ export default class OrustScene extends Phaser.Scene {
   create() {
     this.player = new Player(this, 300, 500);
     this.initMap();
+    this.ghost = this.add.sprite(0, 0, "playerspritesheet", 0);
+    this.ghost.setDepth(100);
+    this.ghost.setTint(0x555555);
     // this.initMusic();
     this.initCollidingActions();
     //get the animated tiles plugin
@@ -66,15 +100,12 @@ export default class OrustScene extends Phaser.Scene {
     this.initMushrooms();
     //create a dialog
     const dialog = new Dialog("Holy shit, a dialog box!");
-  
-    this.scene.get('castle-scene').events.on('player-exit-house', () => {
-        this.player.setX(this.house.body.position.x);
-        this.player.setY(this.house.body.position.y+100)
-      });
   }
 
   update() {
     this.player.updatePlayer();
+    //send update message every half second
+    this.updateGhost();
   }
 
   private initMusic(): void {
@@ -141,7 +172,7 @@ export default class OrustScene extends Phaser.Scene {
       house.removeFromDisplayList();
       //alert when the player collides with the house
       this.physics.add.overlap(this.player, house, () => {
-        this.events.emit('player-enter-house');
+        this.events.emit("player-enter-house");
         this.scene.switch("castle-scene");
       });
     }
