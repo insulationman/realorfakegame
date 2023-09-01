@@ -163,6 +163,9 @@ export default class OrustScene extends Phaser.Scene {
     // this.websocket = new WebSocket("ws://localhost:5087");
 
     this.websocket.onmessage = (event) => {
+      if (this.ghost === undefined) {
+        this.ghost = this.add.sprite(0, 0, "playerspritesheet", 0);
+      }
       const data = JSON.parse(event.data);
       if (data.type === "player") {
         this.ghost.setX(data.playerCoords.x);
@@ -172,7 +175,7 @@ export default class OrustScene extends Phaser.Scene {
 
     this.websocket.onopen = () => {
       console.log("websocket opened");
-      this.ghost = this.add.sprite(0, 0, "playerspritesheet", 0);
+
       this.ghost.setDepth(100);
       this.ghost.setTint(0x555555);
     };
