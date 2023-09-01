@@ -159,7 +159,7 @@ export default class OrustScene extends Phaser.Scene {
   }
 
   private initGhost(): void {
-    this.websocket = new WebSocket("ws://localhost:5087");
+    this.websocket = new WebSocket("wss://realorfakehub.azurewebsites.net");
 
     this.websocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -188,16 +188,23 @@ export default class OrustScene extends Phaser.Scene {
 
   private sendCoords(): void {
     if (this.lastUpdate + 50 < Date.now()) {
-      if (this.websocket.readyState === 1) {
-        this.websocket.send(
-          JSON.stringify({
-            type: "player",
-            playerCoords: {
-              x: this.player.x,
-              y: this.player.y,
-            },
-          })
-        );
+      if (
+        this.websocket.readyState === 1 &&
+        (this.player.body.velocity.x !== 0 ||
+          this.player.body.velocity.y !== 0) &&
+        //check so websocket is not already sending some message
+        this.websocket.bufferedAmount === 0
+      ) {
+        if (this.player)
+          this.websocket.send(
+            JSON.stringify({
+              type: "player",
+              playerCoords: {
+                x: this.player.x,
+                y: this.player.y,
+              },
+            })
+          );
       }
       this.lastUpdate = Date.now();
     }
