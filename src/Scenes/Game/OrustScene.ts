@@ -32,35 +32,7 @@ export default class OrustScene extends Phaser.Scene {
   private lastUpdate = 0;
   private ghost!: GameObjects.Sprite;
 
-  //function that will run every half second
-  private updateGhost() {
-    if (this.lastUpdate > 0) {
-      this.lastUpdate--;
-      return;
-    }
-    this.lastUpdate = 50;
-    const updatemessage = JSON.stringify({
-      type: "ghost",
-      ghostCoords: {
-        x: this.player.x,
-        y: this.player.y,
-      },
-    });
-
-    this.websocket.send(updatemessage);
-  }
-
   preload() {
-    this.websocket = new WebSocket("wss://realorfakehub.azurewebsites.net");
-
-    this.websocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === "ghost") {
-        this.ghost.setX(data.ghostCoords.x);
-        this.ghost.setY(data.ghostCoords.y);
-      }
-    };
-
     this.cameras.main.setBackgroundColor("#696969");
     //Load tilemap
     this.load.tilemapTiledJSON("Ground", tileMapJsonUrl);
@@ -90,9 +62,8 @@ export default class OrustScene extends Phaser.Scene {
   create() {
     this.player = new Player(this, 300, 500);
     this.initMap();
-    this.ghost = this.add.sprite(0, 0, "playerspritesheet", 0);
-    this.ghost.setDepth(100);
-    this.ghost.setTint(0x555555);
+    this.initGhost();
+
     // this.initMusic();
     this.initCollidingActions();
     //get the animated tiles plugin
@@ -105,7 +76,7 @@ export default class OrustScene extends Phaser.Scene {
   update() {
     this.player.updatePlayer();
     //send update message every half second
-    this.updateGhost();
+    this.sendCoords();
   }
 
   private initMusic(): void {
@@ -185,5 +156,50 @@ export default class OrustScene extends Phaser.Scene {
       0,
       0
     );
+  }
+
+  private initGhost(): void {
+    this.websocket = new WebSocket("ws://localhost:5087");
+
+    this.websocket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.type === "player") {
+        this.ghost.setX(data.playerCoords.x);
+        this.ghost.setY(data.playerCoords.y);
+      }
+    };
+
+    this.websocket.onopen = () => {
+      console.log("websocket opened");
+      this.ghost = this.add.sprite(0, 0, "playerspritesheet", 0);
+      this.ghost.setDepth(100);
+      this.ghost.setTint(0x555555);
+    };
+
+    this.websocket.onclose = () => {
+      console.log("websocket closed");
+      this.ghost.destroy();
+    };
+
+    this.websocket.onerror = (error) => {
+      console.log(error);
+    };
+  }
+
+  private sendCoords(): void {
+    if (this.lastUpdate + 50 < Date.now()) {
+      if (this.websocket.readyState === 1) {
+        this.websocket.send(
+          JSON.stringify({
+            type: "player",
+            playerCoords: {
+              x: this.player.x,
+              y: this.player.y,
+            },
+          })
+        );
+      }
+      this.lastUpdate = Date.now();
+    }
   }
 }
