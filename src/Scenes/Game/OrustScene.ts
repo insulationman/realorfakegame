@@ -160,6 +160,7 @@ export default class OrustScene extends Phaser.Scene {
 
   private initGhost(): void {
     this.websocket = new WebSocket("wss://realorfakehub.azurewebsites.net");
+    // this.websocket = new WebSocket("ws://localhost:5087");
 
     this.websocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
