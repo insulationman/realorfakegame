@@ -2,12 +2,14 @@ import { GameObjects, Tilemaps } from "phaser";
 
 // import themeSongUrl from "../../Assets/Audio/theme.mp3";
 import AnimatedTiles from "phaser-animated-tiles-phaser3.5/dist/AnimatedTiles.min.js";
+import wispSpriteUrl from "../../Assets/SpriteSheets/Wisp.png";
 import playerSpriteSheetUrl from "../../Assets/SpriteSheets/mage_f.png";
 import fireStripUrl from "../../Assets/SpriteSheets/sFire_strip5_32x32.png";
 import playerSpriteUrl from "../../Assets/Sprites/player.png";
 import tileMapJsonUrl from "../../Assets/Tilemaps/Orust/Orust.json?url";
 import tilePngUrl from "../../Assets/Tilemaps/Tiles/Serene_Village_32x32.png";
 import { Dialog } from "../../Classes/Dialog";
+import { Ghost } from "../../Classes/Ghost";
 import { Player } from "../../Classes/Player";
 import { AddObjectsFromObjectLayer } from "../../Helpers/TileHelpers";
 
@@ -31,6 +33,7 @@ export default class OrustScene extends Phaser.Scene {
   private websocket!: WebSocket;
   private lastUpdate = 0;
   private ghost!: GameObjects.Sprite;
+  private ghostObject!: Ghost;
 
   preload() {
     this.cameras.main.setBackgroundColor("#696969");
@@ -47,6 +50,10 @@ export default class OrustScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 36,
     });
+    this.load.spritesheet("wispspritesheet", wispSpriteUrl, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
     this.load.spritesheet("tilesspritesheet", tilePngUrl, {
       frameWidth: 32,
       frameHeight: 32,
@@ -61,6 +68,7 @@ export default class OrustScene extends Phaser.Scene {
 
   create() {
     this.player = new Player(this, 300, 500);
+    this.ghostObject = new Ghost(this, 300, 500, "wispspritesheet");
     this.initMap();
     this.initGhost();
 
@@ -165,6 +173,8 @@ export default class OrustScene extends Phaser.Scene {
     this.websocket.onmessage = (event) => {
       if (this.ghost === undefined) {
         this.ghost = this.add.sprite(0, 0, "playerspritesheet", 0);
+        this.ghost.setDepth(100);
+        this.ghost.setTint(0x555555);
       }
       const data = JSON.parse(event.data);
       if (data.type === "player") {
@@ -175,9 +185,6 @@ export default class OrustScene extends Phaser.Scene {
 
     this.websocket.onopen = () => {
       console.log("websocket opened");
-
-      this.ghost.setDepth(100);
-      this.ghost.setTint(0x555555);
     };
 
     this.websocket.onclose = () => {
