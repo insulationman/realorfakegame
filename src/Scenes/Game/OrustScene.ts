@@ -67,7 +67,6 @@ export default class OrustScene extends Phaser.Scene {
 
   create() {
     this.player = new Player(this, 300, 500);
-    this.ghost = new Ghost(this, 300, 500, "wispspritesheet");
     this.initMap();
     this.initGhost();
 
@@ -171,9 +170,8 @@ export default class OrustScene extends Phaser.Scene {
 
     this.websocket.onmessage = (event) => {
       if (this.ghost === undefined) {
-        this.ghost = this.add.sprite(0, 0, "playerspritesheet", 0);
+        this.ghost = new Ghost(this, 300, 500, "wispspritesheet");
         this.ghost.setDepth(100);
-        this.ghost.setTint(0x555555);
       }
       const data = JSON.parse(event.data);
       if (data.type === "player") {
