@@ -32,8 +32,7 @@ export default class OrustScene extends Phaser.Scene {
   private house!: GameObjects.GameObject;
   private websocket!: WebSocket;
   private lastUpdate = 0;
-  private ghost!: GameObjects.Sprite;
-  private ghostObject!: Ghost;
+  private ghost!: Ghost;
 
   preload() {
     this.cameras.main.setBackgroundColor("#696969");
@@ -68,7 +67,7 @@ export default class OrustScene extends Phaser.Scene {
 
   create() {
     this.player = new Player(this, 300, 500);
-    this.ghostObject = new Ghost(this, 300, 500, "wispspritesheet");
+    this.ghost = new Ghost(this, 300, 500, "wispspritesheet");
     this.initMap();
     this.initGhost();
 
